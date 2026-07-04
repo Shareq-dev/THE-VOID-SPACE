@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 620" role="img" aria-labelledby="voidSpaceTitle voidSpaceDesc">
+  <title id="voidSpaceTitle">THE VOID SPACE</title>
+  <desc id="voidSpaceDesc">A black title hero with white geometric THE VOID SPACE lettering.</desc>
+  <defs>
+    <style>
+      .black-hole-ring {
+        animation: blackHoleRing 4.8s ease-in-out infinite;
+      }
+      @keyframes blackHoleRing {
+        0%, 100% { opacity: .64; }
+        50% { opacity: 1; }
+      }
+    </style>
+    <linearGradient id="voidSilver" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset=".36" stop-color="#f7f7f7"/>
+      <stop offset=".62" stop-color="#b7b7b7"/>
+      <stop offset="1" stop-color="#fff"/>
+    </linearGradient>
+    <linearGradient id="voidRing" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset=".38" stop-color="#f8f8f8"/>
+      <stop offset=".64" stop-color="#9b9b9b"/>
+      <stop offset="1" stop-color="#fff"/>
+    </linearGradient>
+    <filter id="softEdge" x="-45%" y="-45%" width="190%" height="190%">
+      <feGaussianBlur stdDeviation="2.2" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0.82 0 1 0 0 0.82 0 0 1 0 0.82 0 0 0 .78 0" result="glow"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="2048" height="620" fill="#000"/>
+
+  <g fill="url(#voidSilver)" filter="url(#softEdge)" font-family="Arial, Helvetica, sans-serif" font-size="40" font-weight="500">
+    <text x="940" y="90" text-anchor="middle">T</text>
+    <text x="1010" y="90" text-anchor="middle">H</text>
+    <text x="1080" y="90" text-anchor="middle">E</text>
+  </g>
+
+  <g fill="none" stroke="url(#voidSilver)" stroke-width="20" stroke-linecap="butt" stroke-linejoin="miter" filter="url(#softEdge)">
+    <path d="M480 190 L535 296"/>
+    <path d="M744 190 L689 296"/>
+    <path d="M566 360 L612 448"/>
+    <path d="M658 360 L612 448"/>
+  </g>
+
+  <circle cx="1010" cy="321" r="148" fill="#000" opacity=".98"/>
+  <circle class="black-hole-ring" cx="1010" cy="321" r="141" fill="none" stroke="url(#voidRing)" stroke-width="13">
+    <animate attributeName="stroke-width" values="11;15;11" dur="4.8s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values=".64;1;.64" dur="4.8s" repeatCount="indefinite"/>
+  </circle>
+
+  <g fill="url(#voidSilver)" filter="url(#softEdge)">
+    <rect x="1280" y="190" width="20" height="107"/>
+    <rect x="1280" y="359" width="20" height="89"/>
+  </g>
+
+  <g fill="none" stroke="url(#voidSilver)" stroke-width="18" stroke-linecap="butt" stroke-linejoin="round" filter="url(#softEdge)">
+    <path d="M1414 198 H1516 C1584 198 1633 246 1633 296"/>
+    <path d="M1414 444 H1518 C1586 444 1633 397 1633 358"/>
+  </g>
+
+  <rect x="560" y="297" width="980" height="66" fill="#000"/>
+  <g fill="url(#voidSilver)" filter="url(#softEdge)" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="400">
+    <text x="612" y="347" text-anchor="middle">S</text>
+    <text x="804" y="347" text-anchor="middle">P</text>
+    <text x="1216" y="347" text-anchor="middle">C</text>
+    <text x="1456" y="347" text-anchor="middle">E</text>
+  </g>
+  <path d="M983 341 L1010 301 L1037 341" fill="none" stroke="url(#voidSilver)" stroke-width="8" stroke-linecap="square" stroke-linejoin="miter" filter="url(#softEdge)"/>
+  <text x="1010" y="586" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="500" letter-spacing="14" fill="#d8d8d8" opacity=".74">WALLPAPERS BEYOND LIGHT</text>
+</svg>

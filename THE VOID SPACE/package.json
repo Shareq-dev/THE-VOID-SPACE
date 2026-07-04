@@ -1,0 +1,17 @@
+{
+  "name": "the-void-space",
+  "version": "1.5.0",
+  "description": "THE VOID SPACE is a full-stack wallpaper sharing platform for curated dark mobile wallpapers, creator profiles, moderation, downloads, and image enhancement.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.45.4",
+    "sharp": "0.33.5"
+  }
+}

@@ -1,0 +1,78 @@
+services:
+  - type: web
+    name: the-void
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SUPABASE_BUCKET
+        value: wallpapers
+      - key: SUPABASE_PROFILE_BUCKET
+        value: profile-pics
+      - key: THE_VOID_ADMIN_PASSWORD
+        sync: false
+      - key: THE_VOID_IP_HASH_SECRET
+        sync: false
+      - key: THE_VOID_AUTO_SYNC_STORAGE
+        value: true
+      - key: THE_VOID_ENABLE_GOOGLE_AUTH
+        value: false
+      - key: THE_VOID_ALLOWED_EMAIL_DOMAINS
+        value: gmail.com,googlemail.com,outlook.com,hotmail.com,live.com,msn.com,yahoo.com,ymail.com,icloud.com,me.com,mac.com,proton.me,protonmail.com,aol.com,zoho.com,zohomail.com,rediffmail.com
+      - key: THE_VOID_EMAIL_OTP_ENABLED
+        value: true
+      - key: BREVO_API_KEY
+        sync: false
+      - key: BREVO_SENDER_EMAIL
+        value: thevoid.support4u@gmail.com
+      - key: BREVO_SENDER_NAME
+        value: THE VOID
+      - key: THE_VOID_ADMIN_EMAIL_NOTIFICATIONS
+        value: true
+      - key: THE_VOID_ADMIN_NOTIFY_EMAIL
+        value: thevoid.support4u@gmail.com
+      - key: THE_VOID_OTP_TTL_MS
+        value: 600000
+      - key: THE_VOID_OTP_RESEND_MS
+        value: 60000
+      - key: THE_VOID_OTP_MAX_ATTEMPTS
+        value: 5
+      - key: THE_VOID_OTP_RATE_WINDOW_MS
+        value: 3600000
+      - key: THE_VOID_OTP_MAX_SENDS_PER_HOUR
+        value: 5
+      - key: THE_VOID_UPLOAD_LIMIT_PER_24H
+        value: 4
+      - key: THE_VOID_ADMIN_LOGIN_MAX_FAILED_ATTEMPTS
+        value: 2
+      - key: THE_VOID_ADMIN_LOGIN_LOCK_MS
+        value: 10800000
+      - key: THE_VOID_USER_LOGIN_MAX_FAILED_ATTEMPTS
+        value: 4
+      - key: THE_VOID_USER_LOGIN_LOCK_MS
+        value: 1800000
+      - key: THE_VOID_AI_ENHANCE_PROVIDER
+        value: cloudinary
+      - key: CLOUDINARY_URL
+        sync: false
+      - key: THE_VOID_AI_ENHANCE_LIMIT_PER_PROFILE
+        value: 3
+      - key: THE_VOID_ENHANCE_CONCURRENCY
+        value: 1
+      - key: THE_VOID_ENHANCE_QUEUE_LIMIT
+        value: 2
+      - key: THE_VOID_ENHANCE_DOWNLOAD_TTL_MS
+        value: 120000
+      - key: THE_VOID_ENHANCE_DOWNLOAD_CACHE_LIMIT
+        value: 2
+      - key: THE_VOID_SHARP_CACHE_MEMORY_MB
+        value: 32
+      - key: THE_VOID_SHARP_CACHE_ITEMS
+        value: 64
+      - key: THE_VOID_SHARP_CONCURRENCY
+        value: 1
