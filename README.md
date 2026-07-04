@@ -172,5 +172,3 @@ You're free to fork, study, modify, and redeploy. Keep the copyright notice. If 
 
 **Syed Roshan Shareq** — sole designer, developer, and operator of THE VOID SPACE.
 Live: [thevoidspace.online](https://thevoidspace.online)
-
-The void remembers.
