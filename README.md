@@ -1,123 +1,176 @@
 # THE VOID SPACE
 
-THE VOID SPACE is a full-stack wallpaper sharing platform for curated dark mobile wallpapers. It gives creators a place to publish their work, build public profiles, receive badge recognition, and share original-quality wallpapers through a clean mobile-first experience.
+A privacy-first, dark-themed wallpaper sharing platform. Curated 9:16 mobile wallpapers, original-resolution downloads, creator profiles, AI image enhancement, and an in-app feedback thread.
 
-Live app: https://thevoidspace.online  
-Info site: https://thevoidspace.info
+Live site: [thevoidspace.online](https://thevoidspace.online) · Companion info site: [thevoidspace.info](https://thevoidspace.info)
 
-## Features
+---
 
-- Curated wallpaper gallery with admin approval before public visibility.
-- Creator accounts with public profiles, profile pictures, upload statistics, and badge tiers.
-- Wallpaper uploads with preview, crop/zoom controls, and 9:16 mobile-first guidance.
-- Original-quality downloads for signed-in users and limited guest downloads.
-- Search by wallpaper title, creator name, and `@username`.
-- Image enhancement for logged-in creators with Cloudinary support and Sharp fallback.
-- Feedback threads, admin replies, and platform-wide notifications.
-- Public Terms of Service and Privacy Policy pages.
-- Local development fallback when Supabase is not configured.
+## ✦ What it is
 
-## Tech Stack
+THE VOID SPACE is a small, focused platform where creators publish dark, immersive mobile wallpapers and collectors download them at original quality. Every wallpaper is reviewed before it goes public. There are no ads, no tracking, and no engagement algorithms — just the work.
 
-- Node.js native HTTP server
-- HTML, CSS, and vanilla JavaScript
-- Supabase Postgres and Supabase Storage
-- Sharp image processing
-- Brevo transactional email for OTP and admin alerts
-- Cloudinary image enhancement when configured
-- Render deployment support
+- **Wallpapers** — curated 9:16 portraits, JPEG / PNG / WEBP, max 12 MB, original-quality downloads for logged-in users.
+- **Guest downloads** — 2 per device per ISO calendar week, no signup required.
+- **Creator profiles** — public portfolio with badge tiers (Starter / Curator / Void Creator) and upload stats.
+- **AI enhancement** — three modes (Natural / Detail / Ultra) via Cloudinary, with a built-in Sharp fallback when the AI quota is spent.
+- **Feedback thread** — chat-style in-app conversation between users and the admin; reviewed items prune after 7 days.
+- **Notifications** — platform-wide announcements as toast popups with a unread bell indicator.
+- **Privacy by default** — no tracking, scrypt password hashing, HttpOnly cookies, same-origin CSRF on every state-changing request.
 
-## Project Structure
+---
 
-```text
-server.js                  Main backend server and API routes
-public/                    Frontend pages, styles, and browser JavaScript
-supabase/schema.sql        Database schema, policies, and storage setup
-render.yaml                Render deployment configuration
-package.json               Node scripts and runtime dependencies
+## ✦ Tech stack
+
+The stack is intentionally plain. No bundler, no compile step, no framework-of-the-week.
+
+| Layer | Choice |
+|-------|--------|
+| Backend | Plain Node.js `http` server in a single `server.js` |
+| Frontend | Static HTML / CSS / plain JavaScript in `public/` |
+| Database & Storage | Supabase Postgres + Storage (Row-Level Security enabled on every table) |
+| Hosting | Render |
+| Transactional email | Brevo (signup OTP + admin event alerts) |
+| AI image enhancement | Cloudinary (with Sharp as the local fallback) |
+| Image processing | Sharp (upload validation, variants, fallback enhancement) |
+
+Runtime dependencies total **two**: [`@supabase/supabase-js`](https://www.npmjs.com/package/@supabase/supabase-js) and [`sharp`](https://www.npmjs.com/package/sharp). That's it.
+
+---
+
+## ✦ Project structure
+
+```
+.
+├── server.js                 # The entire backend — routes, auth, uploads,
+│                             # admin, Supabase, Brevo, Cloudinary, Sharp,
+│                             # security headers, local fallback.
+├── render.yaml               # Render service definition + env-var list.
+├── package.json
+├── supabase/
+│   └── schema.sql            # Tables, indexes, triggers, RLS, grants,
+│                             # and Storage bucket policies.
+└── public/                   # Static frontend — no build step.
+    ├── index.html            # Main app page.
+    ├── admin.html            # Admin console.
+    ├── styles.css            # All styling (dark void theme).
+    ├── app-state.js          # Shared state, session helpers, modals.
+    ├── app-search-auth.js    # Signup / login / OTP, search, Google auth.
+    ├── app-profile.js        # Profile UI, avatar, uploads, account.
+    ├── app-editor.js         # Wallpaper upload preview + presets.
+    ├── app-gallery.js        # Wallpaper grid, preview, downloads.
+    ├── app-enhance.js        # Enhancement frontend flow.
+    ├── app-settings.js       # Notifications and feedback UI.
+    ├── app-boot.js           # Init call.
+    ├── admin.js              # Admin page interactions.
+    ├── script.js             # Tiny legacy loader.
+    ├── terms.html            # Terms of Service.
+    ├── privacy.html          # Privacy Policy.
+    └── void-space-hero.svg   # Hero wordmark.
 ```
 
-## Getting Started
+---
 
-Install dependencies:
+## ✦ Getting started
+
+### Prerequisites
+
+- Node.js 18 or newer
+- A Supabase project (URL + service_role_key + a verified sender email on Brevo for OTP)
+- Optional: a Cloudinary account if you want AI enhancement
+
+### Install and run locally
 
 ```bash
+# 1. clone the repo
+git clone https://github.com/<your-username>/the-void-space.git
+cd the-void-space
+
+# 2. install dependencies (just two of them)
 npm install
-```
 
-Start the app:
+# 3. copy the env template and fill in your own values
+cp .env.example .env
+#   (on Windows PowerShell: Copy-Item .env.example .env)
 
-```bash
+# 4. start the server
 npm start
 ```
 
-Open:
+The server listens on `http://localhost:4173` by default.
 
-```text
-http://localhost:4173
-```
+If `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are not set and the app is not running on Render, the server falls back to local JSON/file storage in `THE_VOID_DATA_DIR` (or a default local folder). This makes it easy to poke around without provisioning Supabase first.
 
-If Supabase environment variables are not set and the app is not running on Render, the server uses local JSON/file storage for development.
+### Smoke test (local fallback mode)
 
-## Environment Variables
+- `GET /` returns `200`.
+- `POST /api/admin/login` requires a same-origin `Origin` header and the admin password.
+- Authenticated `GET /api/admin/storage` reports `ready:true`.
 
-Copy `.env.example` and fill in only the values you need.
+---
 
-Required for production:
+## ✦ Environment variables
 
-- `SUPABASE_URL`
-- `SUPABASE_SERVICE_ROLE_KEY`
-- `THE_VOID_ADMIN_PASSWORD`
-- `THE_VOID_IP_HASH_SECRET`
+See [`.env.example`](./.env.example) for the full list with descriptions and defaults.
 
-Optional service integrations:
+The short version:
 
-- `BREVO_API_KEY` for email OTP and admin alerts.
-- `CLOUDINARY_URL` for AI enhancement.
-- `SUPABASE_ANON_KEY` only when Google authentication is enabled.
+- **Required for production**: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `THE_VOID_ADMIN_PASSWORD`, `THE_VOID_IP_HASH_SECRET`.
+- **Required if you want email OTP**: `BREVO_API_KEY`, `BREVO_SENDER_EMAIL`, `BREVO_SENDER_NAME`.
+- **Optional**: enhancement, lockout, and rate-limit tuning knobs all have sensible defaults baked into `server.js`.
 
-Do not commit real `.env` files, service keys, passwords, tokens, or private credentials.
+**Never commit real secrets.** The `.gitignore` already excludes `.env` files.
 
-## Database Setup
+---
 
-Use `supabase/schema.sql` in your Supabase project to create the required tables, indexes, policies, and storage bucket configuration.
+## ✦ Deploy to Render
 
-The expected public storage buckets are:
+1. Fork or push this repository to your GitHub.
+2. Create a new Web Service on [Render](https://render.com) and connect the repo.
+3. Set the build command to `npm install` and the start command to `npm start` (or `node --expose-gc server.js` to enable manual GC under memory pressure on Render free).
+4. Add every env var from `.env.example` that applies to your deploy (the `render.yaml` file pre-declares the list for the Render dashboard's "Sync from `render.yaml`" feature).
+5. Deploy.
 
-- `wallpapers`
-- `profile-pics`
+---
 
-## Deployment
+## ✦ Database setup
 
-This project includes `render.yaml` for Render deployment. Secret values are marked with `sync: false` and must be added in the Render dashboard.
+Run the SQL in [`supabase/schema.sql`](./supabase/schema.sql) in the Supabase SQL editor. This creates:
 
-Before deploying, verify:
+- `public.users` (creator accounts)
+- `public.wallpapers` (wallpaper records + status lifecycle)
+- `public.app_settings` (sessions, login locks, badge overrides, AI usage, notifications, feedback — stored as JSONB)
+- Indexes on `storage_path`, `(status, created_at desc)`, `(creator_id, created_at desc)`
+- RLS enabled on all three tables; `service_role` granted full access
+- Storage buckets `wallpapers` and `profile-pics` with public-read policies
+- `set_updated_at` triggers and a username-immutability guard
 
-- Supabase URL and service role key are configured.
-- Storage buckets exist.
-- Admin password and IP hash secret are set.
-- Email and enhancement providers are configured only if you want those features enabled.
+---
 
-## Verification
+## ✦ Security model (short version)
 
-Run a syntax check:
+- The Supabase `service_role` key lives only on the server. Browser code never receives it.
+- Passwords are hashed with scrypt + per-user salt.
+- Sessions use HttpOnly cookies + a server-side active-session record (one device per session).
+- OTP codes are kept only as hashes in memory and cleared after use or TTL.
+- Same-origin CSRF / origin check on every state-changing `/api/` request.
+- Security headers: CSP, frame-block, nosniff, referrer policy, permissions policy, HSTS.
+- Admin and user login lockouts with per-device tracking.
+- Enhancement download tokens are session-bound and memory-only — they evaporate on Render restart or sleep.
 
-```bash
-npm run check
-```
+---
 
-For a smoke test, start the server and verify:
+## ✦ License
 
-- `GET /` loads the public app.
-- `GET /admin` loads the admin page.
-- `GET /api/wallpapers` returns a JSON response.
+[MIT](./LICENSE) © 2026 Syed Roshan Shareq.
 
-## Security Notes
+You're free to fork, study, modify, and redeploy. Keep the copyright notice. If you build something interesting on top of it, a heads-up is appreciated but not required.
 
-The app uses HttpOnly cookies, password hashing, same-origin checks for state-changing API calls, upload validation, and server-side access to private provider keys. Production deployments must provide strong secrets through environment variables.
+---
 
-This public repository does not include real service credentials.
+## ✦ Author
 
-## License
+**Syed Roshan Shareq** — sole designer, developer, and operator of THE VOID SPACE.
+Live: [thevoidspace.online](https://thevoidspace.online)
 
-This project is released under the MIT License. See [LICENSE](LICENSE).
+The void remembers.
